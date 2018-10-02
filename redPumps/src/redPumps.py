@@ -13,12 +13,12 @@ import os.path
 from pathlib import Path
 
 FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
-SW_INFO = "pumPy v.1.0.0"
+SW_INFO = "redPumps v.1.0.0"
 
 #Create every time a file (loosing the old)
-#logging.basicConfig(filename = 'pumPy.log', level=logging.DEBUG, filemode='w', format=FORMAT)
+#logging.basicConfig(filename = 'redPumps.log', level=logging.DEBUG, filemode='w', format=FORMAT)
 #Append to the same file
-logging.basicConfig(filename = 'pumPy.log', level=logging.DEBUG, filemode='a', format=FORMAT)
+logging.basicConfig(filename = 'redPumps.log', level=logging.DEBUG, filemode='a', format=FORMAT)
 DEBUG = False
 class pump(object):
     """ A syringe pump
@@ -123,7 +123,7 @@ class popupWindow(object):
     def goBack(self):
         self.top.destroy()
 
-class PumPy_GUI(tk.Frame):    
+class redPumps_GUI(tk.Frame):    
     #Serial 
     commands = {
                 'Diameter':'DIA', 
@@ -182,7 +182,7 @@ class PumPy_GUI(tk.Frame):
         self.setAddMenu = tk.Menu(self.menubar, tearoff=0)
         self.setAddMenu.add_command(label = "Set Address", command = self.popup)
         self.setHelpMenu = tk.Menu(self.menubar, tearoff=0)
-        self.setHelpMenu.add_command(label = "About pumPy", command = self.getSWInfo)
+        self.setHelpMenu.add_command(label = "About redPumps", command = self.getSWInfo)
         
         self.menubar.add_cascade(label="File", menu=self.filemenu)
         self.menubar.add_cascade(label="Preferences", menu=self.setAddMenu)
@@ -1332,9 +1332,9 @@ class PumPy_GUI(tk.Frame):
 
 
 root = tk.Tk()
-root.title("PumPY")
+root.title("redPumps")
 root.geometry("850x550")
 root.resizable(1, 1)
-app = PumPy_GUI(root)
+app = redPumps_GUI(root)
 
 root.mainloop()

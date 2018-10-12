@@ -1,22 +1,32 @@
 import numpy as np
 
+#______________________@__element_B
+#_____________________@@@______
+#____________________@___@_____
+#___________________@@@_@@@____
+#__________________@_______@___
+#_________________@@@_____@@@__
+#________________@___@___@___@_
+#____element_A__@@@_@@@_@@@_@@@   element_C
+
+
 # MODIFY FROM HERE
-pumpA_name = "D2O" #Element 1 (D2O)
-pumpB_name = "baxxodur" #Element 2 (baxxodur)
-pumpC_name = "active" #Element 3 (active)
-#Concentrations
+element_A = "D2O" #Element 1 (D2O)
+element_B = "baxxodur" #Element 2 (baxxodur)
+element_C = "active" #Element 3 (active)
+#Concentrations in each syringe
 #           [El1,   El2,    El3]
-volConc_A = [100,   0,      0] #D2O
-volConc_B = [99,    1,      0] # ACTIVE
-volConc_C = [88,    0,     12] # Baxx
+pump_1 = [100,   0,      0] # element_A - D2O
+pump_2 = [1,    99,      0] # element_B - baxxodur
+pump_3 = [88,    0,     12] # element_C - active
 #Ranges
 initial_A = 5.  #[0:100]
 final_A = 95.  #[0:100]
 initial_C = 95. #[0:100]
 final_C = 5   #[0:100]
 #Steps
-step_A = 10
-step_C = 5
+step_A = 5
+step_C = 3
 #Flowrate (not mandatory)
 flow = 6 # mlh
 # MODIFY TO HERE
@@ -119,16 +129,16 @@ def ternary_thread(initial_A, final_A, initial_C, final_C, step_A, step_C):
 volumes = ternary_thread(initial_A, final_A, initial_C, final_C, step_A, step_C)
 concentrations = np.zeros (volumes.shape)
 flowrates = np.zeros (volumes.shape)
-flowrates = volumes/100
+flowrates = flow*volumes/100
 
 
 for i in range (0, len(concentrations)):
-    concentrations[i,0] = volumes[i,0]*volConc_A[0]/100+volumes[i,1]*volConc_B[0]/100+volumes[i,2]*volConc_C[0]/100
-    concentrations[i,1] = volumes[i,0]*volConc_A[1]/100+volumes[i,1]*volConc_B[1]/100+volumes[i,2]*volConc_C[1]/100
-    concentrations[i,2] = volumes[i,0]*volConc_A[2]/100+volumes[i,1]*volConc_B[2]/100+volumes[i,2]*volConc_C[2]/100
+    concentrations[i,0] = volumes[i,0]*pump_1[0]/100+volumes[i,1]*pump_2[0]/100+volumes[i,2]*pump_3[0]/100
+    concentrations[i,1] = volumes[i,0]*pump_1[1]/100+volumes[i,1]*pump_2[1]/100+volumes[i,2]*pump_3[1]/100
+    concentrations[i,2] = volumes[i,0]*pump_1[2]/100+volumes[i,1]*pump_2[2]/100+volumes[i,2]*pump_3[2]/100
     print(concentrations[i,])
 
-HEADER = "{}\t{}\t{}\n{}\t{}\t{}\n".format(pumpA_name, pumpB_name, pumpC_name, temp[0]*flow,temp[1]*flow,temp[2]*flow)
+HEADER = "{}\t{}\t{}\n{}\t{}\t{}\n".format(element_A, element_B, element_C, temp[0]*flow,temp[1]*flow,temp[2]*flow)
 np.savetxt("concentrations.dat", concentrations, fmt='%.4f', delimiter='\t', newline='\n', header=HEADER, footer='', comments='')
 np.savetxt("volumes.dat", volumes, fmt='%.4f', delimiter='\t', newline='\n', header=HEADER, footer='', comments='')
 np.savetxt("flowrates_mlmin.dat", flowrates, fmt='%.4f', delimiter='\t', newline='\n', header=HEADER, footer='', comments='')
